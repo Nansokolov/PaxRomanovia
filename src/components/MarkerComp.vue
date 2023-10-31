@@ -2,12 +2,16 @@
   <div class="marker" @click="click">
     <img
       class="icon"
-      src="@/assets/icons/conflict.svg"
+      src="./../assets/icons/conflict.svg"
       alt=""
       draggable="false"
+      @mouseover="showHint = true"
+      @mouseout="showHint = false"
     />
+    <span class="hint" v-show="showHint">пваыпвап</span>
   </div>
 </template>
+
 <script>
 export default {
   props: {
@@ -17,11 +21,15 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      showHint: false,
+    };
   },
+  computed: {},
+  mounted() {},
   methods: {
     click() {
-      console.log(this.id);
+      alert(this.id);
     },
   },
 };
@@ -42,5 +50,10 @@ export default {
 .icon {
   display: inline;
   height: 20px;
+}
+
+.hint {
+  width: 100px;
+  height: 30px;
 }
 </style>

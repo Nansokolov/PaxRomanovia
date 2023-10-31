@@ -1,5 +1,6 @@
 <template lang="">
   <div class="map-container" ref="container">
+    <div class="card">fasdfsdafasd</div>
     <div
       class="map-layers"
       @mousedown="startDragging"
@@ -118,6 +119,7 @@ export default {
     position: absolute;
 
     &__background {
+      width: 1000px;
     }
 
     &__markers-layer {
@@ -125,6 +127,17 @@ export default {
       position: absolute;
       top: 0;
     }
+  }
+  .card {
+    position: absolute;
+    height: 400px;
+    width: 300px;
+    border: 4px solid red;
+    background-color: green;
+    z-index: 100;
+    right: 40px;
+    top: 40px;
+    pointer-events: none;
   }
 }
 </style>
