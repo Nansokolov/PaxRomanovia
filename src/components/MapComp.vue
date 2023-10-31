@@ -23,6 +23,7 @@
           v-for="(marker, index) in markers"
           :key="index"
           :style="{ top: marker.x + 'px', left: marker.y + 'px' }"
+          :id="marker.id"
         >
         </MarkerComp>
       </div>
@@ -42,8 +43,8 @@ export default {
       containerSize: {},
       mapSize: {},
       markers: [
-        { x: 20, y: 100 },
-        { x: 500, y: 180 },
+        { x: 20, y: 100, id: 12 },
+        { x: 500, y: 180, id: 321 },
       ],
       offsetX: 0,
       offsetY: 0,
@@ -84,13 +85,8 @@ export default {
       const dx = event.clientX - this.lastMousePosition.x;
       const dy = event.clientY - this.lastMousePosition.y;
 
-      const rectContainer = this.$refs.container.getBoundingClientRect(),
-        containerBottom = rectContainer.bottom,
-        containerRight = rectContainer.right;
-
-      const rectMap = this.$refs.mapLayer.getBoundingClientRect(),
-        MapBottom = rectMap.bottom,
-        MapRight = rectMap.right;
+      const diffX = this.containerSize.width - this.mapSize.width,
+        diffY = this.containerSize.height - this.mapSize.height;
 
       this.offsetX += dx;
       this.offsetY += dy;
@@ -98,13 +94,8 @@ export default {
       if (this.offsetX > 0) this.offsetX = 0;
       if (this.offsetY > 0) this.offsetY = 0;
 
-      if (containerBottom > MapBottom)
-        this.offsetY = this.containerSize.height - this.mapSize.height;
-      if (containerRight - 1 > MapRight) {
-        console.log("stop");
-        this.offsetX = this.containerSize.width - this.mapSize.width;
-      }
-
+      if (this.offsetX < diffX) this.offsetX = diffX;
+      if (this.offsetY < diffY) this.offsetY = diffY;
       this.lastMousePosition = { x: event.clientX, y: event.clientY };
 
       this.$refs.mapLayer.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`;

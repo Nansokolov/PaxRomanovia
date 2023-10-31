@@ -10,9 +10,18 @@
 </template>
 <script>
 export default {
+  props: {
+    id: {
+      type: [String, Number],
+      required: true,
+    },
+  },
+  data() {
+    return {};
+  },
   methods: {
     click() {
-      console.log("eee");
+      console.log(this.id);
     },
   },
 };
