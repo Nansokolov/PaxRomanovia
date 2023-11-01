@@ -1,6 +1,6 @@
 <template lang="">
   <div class="map-container" ref="container">
-    <CardComp :data="val" class="card" v-show="modal"></CardComp>
+    <CardComp :data="selectedElement" class="card" v-show="modal"></CardComp>
 
     <div
       class="map-layers"
@@ -79,6 +79,8 @@ export default {
       val: "heh",
       currentYear: 1900,
 
+      selectedElement: {},
+
       // for markers example to take from storage
       /* Example of marker item:
         {
@@ -98,6 +100,9 @@ export default {
           type: "conflict",
           region: "moscow",
           name: "первое восстание",
+          period: "1600-1700г.",
+          pic: "@/assets/castle.svg",
+          description: "text text text .... blablabla 1",
         },
         {
           place: [200, 200],
@@ -105,6 +110,9 @@ export default {
           type: "strengthen",
           region: "moscow",
           name: "New reveal",
+          period: "1700-1800г.",
+          pic: "@/assets/castle.svg",
+          description: "text text text .... blablabla 2",
         },
         {
           place: [300, 300],
@@ -112,6 +120,9 @@ export default {
           type: "experiments",
           region: "moscow",
           name: "try to destroy your ass",
+          period: "1800-1900г.",
+          pic: "@/assets/castle.svg",
+          description: "text text text .... blablabla 3",
         },
       ],
     };
@@ -136,8 +147,12 @@ export default {
 
   methods: {
     handleCardDisplay(modal, elem){
-      this.modal = !modal
-      console.log(elem.name)
+      if(this.selectedElement == elem){
+        this.modal = !modal
+      }else{
+        this.modal=true
+        this.selectedElement = elem
+      }
       // return modal
     },
     countContainerSizes() {
@@ -241,15 +256,19 @@ export default {
   }
   .card {
     position: absolute;
-    height: 400px;
-    width: 300px;
-    border: 4px solid red;
-    background-color: green;
+    height: 420px;
+    width: 280px;
+    border: 2px solid #bd9956;
+    border-radius: 20px;
+    background-color: #717171;
+    color: white;
+    padding: 30px;
     z-index: 100;
     right: 40px;
     top: 40px;
     pointer-events: none;
-    // display: none;
+    text-align: left;
   }
+
 }
 </style>
