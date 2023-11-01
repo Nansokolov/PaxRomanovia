@@ -1,6 +1,7 @@
 <template lang="">
   <div class="map-container" ref="container">
-    <div class="card">fasdfsdafasd</div>
+    <CardComp :data="val" class="card" v-show="modal"></CardComp>
+
     <div
       class="map-layers"
       @mousedown="startDragging"
@@ -39,22 +40,27 @@
             top: marker.place[1] * zoom - 20 + 'px',
           }"
           :data="marker"
+          @click="handleCardDisplay(modal, marker)"
         >
         </MarkerComp>
+        
       </div>
     </div>
   </div>
 </template>
 <script>
 import MarkerComp from "./MarkerComp.vue";
+import CardComp from "./CardComp.vue";
 
 export default {
   components: {
     MarkerComp,
+    CardComp
   },
   data() {
     return {
       // for transition and dragging
+      modal: false,
       isDragging: false,
       containerSize: {},
       mapSize: {},
@@ -70,7 +76,7 @@ export default {
       mousePositionY: 0,
 
       zoom: 1,
-
+      val: "heh",
       currentYear: 1900,
 
       // for markers example to take from storage
@@ -129,6 +135,11 @@ export default {
   updated() {},
 
   methods: {
+    handleCardDisplay(modal, elem){
+      this.modal = !modal
+      console.log(elem.name)
+      // return modal
+    },
     countContainerSizes() {
       return {
         width: this.$refs.container.clientWidth,
@@ -238,7 +249,7 @@ export default {
     right: 40px;
     top: 40px;
     pointer-events: none;
-    display: none;
+    // display: none;
   }
 }
 </style>
