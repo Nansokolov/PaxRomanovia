@@ -108,16 +108,7 @@ export default {
     this.containerSize = this.countContainerSizes();
   },
 
-  watch: {
-    zoom(newVal, oldVal) {
-      Object.assign(this.mapSize, {
-        width: (this.mapSize.width / oldVal) * newVal,
-        height: (this.mapSize.height / oldVal) * newVal,
-      });
-
-      this.checkOffset();
-    },
-  },
+  watch: {},
 
   updated() {},
 
@@ -164,25 +155,6 @@ export default {
 
       if (this.offsetX < diffX) this.offsetX = diffX;
       if (this.offsetY < diffY) this.offsetY = diffY;
-    },
-
-    setMousePosition(event) {
-      this.mousePositionX = event.offsetX;
-      this.mousePositionY = event.offsetY;
-      event.target.style.transformOrigin = `${this.mousePositionX}px ${this.mousePositionY}px`;
-      this.handleWheelEvent(event.deltaY);
-    },
-
-    handleWheelEvent(delta) {
-      if (delta > 0) {
-        this.zoom = this.zoom = Math.round((this.zoom - 0.2) * 10) / 10;
-        if (this.zoom < 1) this.zoom = 1;
-      } else {
-        this.zoom = Math.round((this.zoom + 0.2) * 10) / 10;
-        if (this.zoom > 4) this.zoom = 4;
-      }
-
-      this.checkOffset();
     },
   },
 };
