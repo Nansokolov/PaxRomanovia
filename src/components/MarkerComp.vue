@@ -48,8 +48,6 @@ export default {
 
   pointer-events: auto;
 
-  // transition: all 0.3s;
-
   cursor: pointer;
   font-size: 10px;
 }

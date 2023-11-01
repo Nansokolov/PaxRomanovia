@@ -7,7 +7,7 @@
       @mouseup="stopDragging"
       @mousemove="drag"
       @mouseleave="stopDragging"
-      @wheel="setMousePosition"
+      @wheel="handleWheelEvent"
       ref="mapLayer"
       :style="{
         transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
@@ -59,15 +59,17 @@ export default {
       // for transition and dragging
       isDragging: false,
       containerSize: {},
-      mapSize: {
+      mapSize: {},
+      startMapSize: {
         width: 800,
         height: 500,
       },
-      offsetX: 0,
-      offsetY: 0,
+      deltaZoom: 0.2,
+      offsetX: -1,
+      offsetY: -1,
 
-      mousePositionX: 100,
-      mousePositionY: 100,
+      mousePositionX: 0,
+      mousePositionY: 0,
 
       zoom: 1,
 
@@ -100,19 +102,27 @@ export default {
           region: "moscow",
           name: "New reveal",
         },
+        {
+          place: [300, 300],
+          id: 3,
+          type: "experiments",
+          region: "moscow",
+          name: "try to destroy your ass",
+        },
       ],
     };
   },
 
   mounted() {
     this.containerSize = this.countContainerSizes();
+    Object.assign(this.mapSize, this.startMapSize);
   },
 
   watch: {
     zoom(newVal, oldVal) {
       Object.assign(this.mapSize, {
-        width: (this.mapSize.width / oldVal) * newVal,
-        height: (this.mapSize.height / oldVal) * newVal,
+        width: Math.round((this.mapSize.width / oldVal) * newVal),
+        height: Math.round((this.mapSize.height / oldVal) * newVal),
       });
 
       this.checkOffset();
@@ -166,23 +176,35 @@ export default {
       if (this.offsetY < diffY) this.offsetY = diffY;
     },
 
-    setMousePosition(event) {
-      this.mousePositionX = event.offsetX;
-      this.mousePositionY = event.offsetY;
-      event.target.style.transformOrigin = `${this.mousePositionX}px ${this.mousePositionY}px`;
-      this.handleWheelEvent(event.deltaY);
-    },
+    handleWheelEvent(event) {
+      const delX = event.offsetX / this.mapSize.width,
+        delY = event.offsetY / this.mapSize.height;
 
-    handleWheelEvent(delta) {
-      if (delta > 0) {
-        this.zoom = this.zoom = Math.round((this.zoom - 0.2) * 10) / 10;
-        if (this.zoom < 1) this.zoom = 1;
+      const maxOffsetX = this.startMapSize.width * this.deltaZoom,
+        maxOffsetY = this.startMapSize.height * this.deltaZoom;
+
+      console.log(maxOffsetX * delX, maxOffsetY * delY);
+
+      if (event.deltaY > 0) {
+        this.zoom = Math.round((this.zoom - this.deltaZoom) * 10) / 10;
+        if (this.zoom < 1) {
+          this.zoom = 1;
+          return;
+        } else {
+          this.offsetX += maxOffsetX * delX;
+          this.offsetY += maxOffsetY * delY;
+        }
       } else {
-        this.zoom = Math.round((this.zoom + 0.2) * 10) / 10;
-        if (this.zoom > 4) this.zoom = 4;
+        this.zoom = Math.round((this.zoom + this.deltaZoom) * 10) / 10;
+        if (this.zoom > 4) {
+          this.zoom = 4;
+          return;
+        } else {
+          this.offsetX -= maxOffsetX * delX;
+          this.offsetY -= maxOffsetY * delY;
+          console.log(this.offsetX, this.offsetY);
+        }
       }
-
-      this.checkOffset();
     },
   },
 };
@@ -193,6 +215,8 @@ export default {
   width: 100%;
   height: 500px;
   overflow: hidden;
+
+  margin-top: 100px;
 
   .map-layers {
     position: absolute;
