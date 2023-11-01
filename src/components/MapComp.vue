@@ -10,6 +10,9 @@
       @mouseleave="stopDragging"
       @wheel="handleWheelEvent"
       ref="mapLayer"
+      :style="{
+        transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
+      }"
     >
       <img
         class="map-layers__background"
@@ -61,8 +64,17 @@ export default {
       isDragging: false,
       containerSize: {},
       mapSize: {},
-      offsetX: 0,
-      offsetY: 0,
+      startMapSize: {
+        width: 800,
+        height: 500,
+      },
+      deltaZoom: 0.2,
+      offsetX: -1,
+      offsetY: -1,
+
+      mousePositionX: 0,
+      mousePositionY: 0,
+
       zoom: 1,
       val: "heh",
       currentYear: 1900,
@@ -94,43 +106,39 @@ export default {
           region: "moscow",
           name: "New reveal",
         },
+        {
+          place: [300, 300],
+          id: 3,
+          type: "experiments",
+          region: "moscow",
+          name: "try to destroy your ass",
+        },
       ],
     };
   },
 
   mounted() {
-    this.mapSize = this.countMapSizes();
     this.containerSize = this.countContainerSizes();
+    Object.assign(this.mapSize, this.startMapSize);
   },
 
   watch: {
     zoom(newVal, oldVal) {
       Object.assign(this.mapSize, {
-        width: (this.mapSize.width / oldVal) * newVal,
-        height: (this.mapSize.height / oldVal) * newVal,
+        width: Math.round((this.mapSize.width / oldVal) * newVal),
+        height: Math.round((this.mapSize.height / oldVal) * newVal),
       });
-
-      const diffX = this.containerSize.width - this.mapSize.width,
-        diffY = this.containerSize.height - this.mapSize.height;
-
-      if (this.offsetX < diffX) this.offsetX = diffX;
-      if (this.offsetY < diffY) this.offsetY = diffY;
-
-      this.$refs.mapLayer.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`;
+      this.checkOffset();
     },
   },
+
+  updated() {},
 
   methods: {
     handleCardDisplay(modal, elem){
       this.modal = !modal
       console.log(elem.name)
       // return modal
-    },
-    countMapSizes() {
-      return {
-        width: this.$refs.map.clientWidth,
-        height: this.$refs.map.clientHeight,
-      };
     },
     countContainerSizes() {
       return {
@@ -154,36 +162,56 @@ export default {
       const dx = event.clientX - this.lastMousePosition.x;
       const dy = event.clientY - this.lastMousePosition.y;
 
-      const diffX = this.containerSize.width - this.mapSize.width,
-        diffY = this.containerSize.height - this.mapSize.height;
-
-      console.log(diffX, diffY);
-
       this.offsetX += dx;
       this.offsetY += dy;
 
-      if (this.offsetX > 0) this.offsetX = 0;
-      if (this.offsetY > 0) this.offsetY = 0;
-
-      if (this.offsetX < diffX) this.offsetX = diffX;
-      if (this.offsetY < diffY) this.offsetY = diffY;
+      this.checkOffset();
       this.lastMousePosition = { x: event.clientX, y: event.clientY };
-
-      this.$refs.mapLayer.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`;
     },
     stopDragging() {
       this.isDragging = false;
       document.body.style.cursor = "default";
     },
 
+    checkOffset() {
+      const diffX = this.containerSize.width - this.mapSize.width,
+        diffY = this.containerSize.height - this.mapSize.height;
+
+      if (this.offsetX > 0) this.offsetX = 0;
+      if (this.offsetY > 0) this.offsetY = 0;
+
+      if (this.offsetX < diffX) this.offsetX = diffX;
+      if (this.offsetY < diffY) this.offsetY = diffY;
+    },
+
     handleWheelEvent(event) {
+      const delX = event.offsetX / this.mapSize.width,
+        delY = event.offsetY / this.mapSize.height;
+
+      const maxOffsetX = this.startMapSize.width * this.deltaZoom,
+        maxOffsetY = this.startMapSize.height * this.deltaZoom;
+
+      console.log(maxOffsetX * delX, maxOffsetY * delY);
+
       if (event.deltaY > 0) {
-        this.zoom -= 0.3;
-        this.zoom = Math.max(1, this.zoom);
-        // Прокрутка вниз
+        this.zoom = Math.round((this.zoom - this.deltaZoom) * 10) / 10;
+        if (this.zoom < 1) {
+          this.zoom = 1;
+          return;
+        } else {
+          this.offsetX += maxOffsetX * delX;
+          this.offsetY += maxOffsetY * delY;
+        }
       } else {
-        this.zoom += 0.3; // Прокрутка вверх
-        this.zoom = Math.min(2.5, this.zoom);
+        this.zoom = Math.round((this.zoom + this.deltaZoom) * 10) / 10;
+        if (this.zoom > 4) {
+          this.zoom = 4;
+          return;
+        } else {
+          this.offsetX -= maxOffsetX * delX;
+          this.offsetY -= maxOffsetY * delY;
+          console.log(this.offsetX, this.offsetY);
+        }
       }
     },
   },
@@ -196,10 +224,13 @@ export default {
   height: 500px;
   overflow: hidden;
 
+  margin-top: 100px;
+
   .map-layers {
     position: absolute;
 
     &__background {
+      // transition: all 0.3s;
     }
 
     &__markers-layer {
