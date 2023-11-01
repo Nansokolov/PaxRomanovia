@@ -124,8 +124,6 @@ export default {
         width: Math.round((this.mapSize.width / oldVal) * newVal),
         height: Math.round((this.mapSize.height / oldVal) * newVal),
       });
-
-      this.checkOffset();
     },
   },
 
