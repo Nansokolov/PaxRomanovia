@@ -128,8 +128,8 @@ export default {
     },
     countMapSizes() {
       return {
-        width: this.$refs.map.clientWidth+800,
-        height: this.$refs.map.clientHeight+400,
+        width: this.$refs.map.clientWidth,
+        height: this.$refs.map.clientHeight,
       };
     },
     countContainerSizes() {
