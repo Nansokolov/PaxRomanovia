@@ -37,7 +37,7 @@
             top: marker.place[1] * zoom - 20 + 'px',
           }"
           :data="marker"
-          @click="modal = handleCardDisplay(modal, marker)"
+          @click="handleCardDisplay(modal, marker)"
         >
         </MarkerComp>
         
@@ -122,9 +122,9 @@ export default {
 
   methods: {
     handleCardDisplay(modal, elem){
-      modal = !modal
+      this.modal = !modal
       console.log(elem.name)
-      return modal
+      // return modal
     },
     countMapSizes() {
       return {
