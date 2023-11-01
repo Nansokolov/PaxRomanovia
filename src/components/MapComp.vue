@@ -11,8 +11,6 @@
       ref="mapLayer"
       :style="{
         transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
-        scale: '(2)',
-        transformOrigin: '100% 100%',
       }"
     >
       <img
@@ -124,6 +122,7 @@ export default {
         width: Math.round((this.mapSize.width / oldVal) * newVal),
         height: Math.round((this.mapSize.height / oldVal) * newVal),
       });
+      this.checkOffset();
     },
   },
 
