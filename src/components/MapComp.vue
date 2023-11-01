@@ -7,6 +7,7 @@
       @mouseup="stopDragging"
       @mousemove="drag"
       @mouseleave="stopDragging"
+      @wheel="handleWheelEvent"
       ref="mapLayer"
     >
       <img
@@ -15,16 +16,26 @@
         alt=""
         draggable="false"
         ref="map"
+        :style="{
+          width: mapSize.width + 'px',
+          height: mapSize.height + 'px',
+        }"
       />
       <div
         class="map-layers__markers-layer"
-        :style="{ width: mapSize.width + 'px', height: mapSize.height + 'px' }"
+        :style="{
+          width: mapSize.width + 'px',
+          height: mapSize.height + 'px',
+        }"
       >
         <MarkerComp
-          v-for="(marker, index) in markers"
+          v-for="(marker, index) in currentMarkers"
           :key="index"
-          :style="{ top: marker.x + 'px', left: marker.y + 'px' }"
-          :id="marker.id"
+          :style="{
+            left: marker.place[0] * zoom - 20 + 'px',
+            top: marker.place[1] * zoom - 20 + 'px',
+          }"
+          :data="marker"
         >
         </MarkerComp>
       </div>
@@ -40,21 +51,67 @@ export default {
   },
   data() {
     return {
+      // for transition and dragging
       isDragging: false,
       containerSize: {},
       mapSize: {},
-      markers: [
-        { x: 20, y: 100, id: 12 },
-        { x: 500, y: 180, id: 321 },
-      ],
       offsetX: 0,
       offsetY: 0,
+      zoom: 1,
+
+      currentYear: 1900,
+
+      // for markers example to take from storage
+      /* Example of marker item:
+        {
+          place: [100, 100],
+          id: 1,
+          type: "conflict", (only 4 types: conflict, strengthen, experiments, subjects)
+          region: "moscow",
+          name: "первое восстание",
+        }
+
+    Take such item from storage
+       */
+      currentMarkers: [
+        {
+          place: [100, 100],
+          id: 1,
+          type: "conflict",
+          region: "moscow",
+          name: "первое восстание",
+        },
+        {
+          place: [200, 200],
+          id: 2,
+          type: "strengthen",
+          region: "moscow",
+          name: "New reveal",
+        },
+      ],
     };
   },
 
   mounted() {
     this.mapSize = this.countMapSizes();
     this.containerSize = this.countContainerSizes();
+  },
+
+  watch: {
+    zoom(newVal, oldVal) {
+      Object.assign(this.mapSize, {
+        width: (this.mapSize.width / oldVal) * newVal,
+        height: (this.mapSize.height / oldVal) * newVal,
+      });
+
+      const diffX = this.containerSize.width - this.mapSize.width,
+        diffY = this.containerSize.height - this.mapSize.height;
+
+      if (this.offsetX < diffX) this.offsetX = diffX;
+      if (this.offsetY < diffY) this.offsetY = diffY;
+
+      this.$refs.mapLayer.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`;
+    },
   },
 
   methods: {
@@ -73,8 +130,8 @@ export default {
     startDragging(event) {
       if (event.button !== 0) return;
 
-      this.mapSize = this.countMapSizes();
-      this.containerSize = this.countContainerSizes();
+      /*       this.mapSize = this.countMapSizes();
+      this.containerSize = this.countContainerSizes(); */
 
       this.isDragging = true;
       document.body.style.cursor = "grabbing";
@@ -88,6 +145,8 @@ export default {
 
       const diffX = this.containerSize.width - this.mapSize.width,
         diffY = this.containerSize.height - this.mapSize.height;
+
+      console.log(diffX, diffY);
 
       this.offsetX += dx;
       this.offsetY += dy;
@@ -105,6 +164,17 @@ export default {
       this.isDragging = false;
       document.body.style.cursor = "default";
     },
+
+    handleWheelEvent(event) {
+      if (event.deltaY > 0) {
+        this.zoom -= 0.3;
+        this.zoom = Math.max(1, this.zoom);
+        // Прокрутка вниз
+      } else {
+        this.zoom += 0.3; // Прокрутка вверх
+        this.zoom = Math.min(2.5, this.zoom);
+      }
+    },
   },
 };
 </script>
@@ -119,7 +189,6 @@ export default {
     position: absolute;
 
     &__background {
-      width: 1000px;
     }
 
     &__markers-layer {
@@ -138,6 +207,7 @@ export default {
     right: 40px;
     top: 40px;
     pointer-events: none;
+    display: none;
   }
 }
 </style>
