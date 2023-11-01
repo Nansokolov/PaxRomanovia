@@ -7,8 +7,13 @@
       @mouseup="stopDragging"
       @mousemove="drag"
       @mouseleave="stopDragging"
-      @wheel="handleWheelEvent"
+      @wheel="setMousePosition"
       ref="mapLayer"
+      :style="{
+        transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
+        scale: '(2)',
+        transformOrigin: '100% 100%',
+      }"
     >
       <img
         class="map-layers__background"
@@ -54,9 +59,16 @@ export default {
       // for transition and dragging
       isDragging: false,
       containerSize: {},
-      mapSize: {},
+      mapSize: {
+        width: 800,
+        height: 500,
+      },
       offsetX: 0,
       offsetY: 0,
+
+      mousePositionX: 100,
+      mousePositionY: 100,
+
       zoom: 1,
 
       currentYear: 1900,
@@ -93,7 +105,6 @@ export default {
   },
 
   mounted() {
-    this.mapSize = this.countMapSizes();
     this.containerSize = this.countContainerSizes();
   },
 
@@ -104,23 +115,13 @@ export default {
         height: (this.mapSize.height / oldVal) * newVal,
       });
 
-      const diffX = this.containerSize.width - this.mapSize.width,
-        diffY = this.containerSize.height - this.mapSize.height;
-
-      if (this.offsetX < diffX) this.offsetX = diffX;
-      if (this.offsetY < diffY) this.offsetY = diffY;
-
-      this.$refs.mapLayer.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`;
+      this.checkOffset();
     },
   },
 
+  updated() {},
+
   methods: {
-    countMapSizes() {
-      return {
-        width: this.$refs.map.clientWidth,
-        height: this.$refs.map.clientHeight,
-      };
-    },
     countContainerSizes() {
       return {
         width: this.$refs.container.clientWidth,
@@ -143,37 +144,45 @@ export default {
       const dx = event.clientX - this.lastMousePosition.x;
       const dy = event.clientY - this.lastMousePosition.y;
 
-      const diffX = this.containerSize.width - this.mapSize.width,
-        diffY = this.containerSize.height - this.mapSize.height;
-
-      console.log(diffX, diffY);
-
       this.offsetX += dx;
       this.offsetY += dy;
 
-      if (this.offsetX > 0) this.offsetX = 0;
-      if (this.offsetY > 0) this.offsetY = 0;
-
-      if (this.offsetX < diffX) this.offsetX = diffX;
-      if (this.offsetY < diffY) this.offsetY = diffY;
+      this.checkOffset();
       this.lastMousePosition = { x: event.clientX, y: event.clientY };
-
-      this.$refs.mapLayer.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`;
     },
     stopDragging() {
       this.isDragging = false;
       document.body.style.cursor = "default";
     },
 
-    handleWheelEvent(event) {
-      if (event.deltaY > 0) {
-        this.zoom -= 0.3;
-        this.zoom = Math.max(1, this.zoom);
-        // Прокрутка вниз
+    checkOffset() {
+      const diffX = this.containerSize.width - this.mapSize.width,
+        diffY = this.containerSize.height - this.mapSize.height;
+
+      if (this.offsetX > 0) this.offsetX = 0;
+      if (this.offsetY > 0) this.offsetY = 0;
+
+      if (this.offsetX < diffX) this.offsetX = diffX;
+      if (this.offsetY < diffY) this.offsetY = diffY;
+    },
+
+    setMousePosition(event) {
+      this.mousePositionX = event.offsetX;
+      this.mousePositionY = event.offsetY;
+      event.target.style.transformOrigin = `${this.mousePositionX}px ${this.mousePositionY}px`;
+      this.handleWheelEvent(event.deltaY);
+    },
+
+    handleWheelEvent(delta) {
+      if (delta > 0) {
+        this.zoom = this.zoom = Math.round((this.zoom - 0.2) * 10) / 10;
+        if (this.zoom < 1) this.zoom = 1;
       } else {
-        this.zoom += 0.3; // Прокрутка вверх
-        this.zoom = Math.min(2.5, this.zoom);
+        this.zoom = Math.round((this.zoom + 0.2) * 10) / 10;
+        if (this.zoom > 4) this.zoom = 4;
       }
+
+      this.checkOffset();
     },
   },
 };
@@ -189,6 +198,7 @@ export default {
     position: absolute;
 
     &__background {
+      // transition: all 0.3s;
     }
 
     &__markers-layer {

@@ -5,6 +5,8 @@ export default createStore({
     events: {},
     currentMarkers: [],
     currentCardData: {},
+
+    showCard: true,
   },
   getters: {},
   mutations: {},
