@@ -14,7 +14,7 @@
           class="filter-option"
           v-for="(option, index) in options"
           :key="index"
-          @click="selectOption(index)"
+          @click="selectOption(option)"
         >
           <span>&bull;</span> {{ option }}
         </div>
@@ -23,20 +23,36 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+
 export default {
+  props: {
+    moduleName: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       hovered: false,
-      selected: "realy very long Default option",
-      options: ["option1", "option2"],
     };
+  },
+  computed: {
+    ...mapState({
+      options: function (state) {
+        return state[this.moduleName].options;
+      },
+      selected: function (state) {
+        return state[this.moduleName].selected;
+      },
+    }),
   },
   methods: {
     openOptionsList() {
       this.hovered = !this.hovered;
     },
-    selectOption(index) {
-      this.selected = this.options[index];
+    selectOption(option) {
+      this.$store.commit(`${this.moduleName}/updateSelected`, option);
     },
   },
 };

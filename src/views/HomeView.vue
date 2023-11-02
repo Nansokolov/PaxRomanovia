@@ -6,8 +6,8 @@
           <div class="logo">PAX ROMANOVIA</div>
         </router-link>
         <div class="content-filters">
-          <FilterComp></FilterComp>
-          <FilterComp></FilterComp>
+          <FilterComp :moduleName="filterTypes[0]"></FilterComp>
+          <FilterComp :moduleName="filterTypes[1]"></FilterComp>
         </div>
       </header>
 
@@ -27,7 +27,9 @@ export default {
     FilterComp,
   },
   data() {
-    return {};
+    return {
+      filterTypes: ["typeFilter", "regionFilter"],
+    };
   },
 };
 </script>
