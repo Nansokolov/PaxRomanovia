@@ -39,7 +39,7 @@ export default {
   border: 2px solid #bd9956;
   border-radius: 20px;
   background-color: #717171;
-  color: white;
+  color: antiquewhite;
   padding: 30px;
 
   -webkit-box-shadow: 12px 12px 8px 0px rgba(34, 60, 80, 0.43);

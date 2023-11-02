@@ -7,6 +7,7 @@
       draggable="false"
       @mouseover="showHint = true"
       @mouseout="showHint = false"
+      :id="data.id"
     />
     <div class="hint" v-show="showHint">
       <span>{{ data.name }}</span>

@@ -26,8 +26,8 @@
 export default {
   data() {
     return {
-      hovered: true,
-      selected: "realy much long Default option",
+      hovered: false,
+      selected: "realy very long Default option",
       options: ["option1", "option2"],
     };
   },

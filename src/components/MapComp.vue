@@ -15,6 +15,7 @@
       }"
     >
       <img
+        id="map"
         class="map-layers__background"
         src="@/assets/map.jpg"
         alt=""
@@ -41,6 +42,7 @@
             top:
               marker.place[1] * (startMapSize.height / 1360) * zoom - 20 + 'px',
           }"
+          current="index"
           :data="marker"
           @click="handleCardDisplay(modal, marker)"
         >
@@ -203,13 +205,11 @@ export default {
     },
 
     handleWheelEvent(event) {
-      const delX = event.offsetX / this.mapSize.width,
+      let delX = event.offsetX / this.mapSize.width,
         delY = event.offsetY / this.mapSize.height;
 
       const maxOffsetX = this.startMapSize.width * this.deltaZoom,
         maxOffsetY = this.startMapSize.height * this.deltaZoom;
-
-      console.log(maxOffsetX * delX, maxOffsetY * delY);
 
       if (event.deltaY > 0) {
         this.zoom = Math.round((this.zoom - this.deltaZoom) * 10) / 10;
@@ -228,7 +228,6 @@ export default {
         } else {
           this.offsetX -= maxOffsetX * delX;
           this.offsetY -= maxOffsetY * delY;
-          console.log(this.offsetX, this.offsetY);
         }
       }
     },
