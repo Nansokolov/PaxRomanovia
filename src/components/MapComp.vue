@@ -9,7 +9,6 @@
       @mousemove="drag"
       @mouseleave="stopDragging"
       @wheel="handleWheelEvent"
-      @click="hideCard"
       ref="mapLayer"
       :style="{
         transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
@@ -160,11 +159,6 @@ export default {
         this.selectedElement = elem;
       }
     },
-    hideCard(event) {
-      if (event.target.className != "icon") {
-        this.modal = false;
-      }
-    },
     countContainerSizes() {
       return {
         width: this.$refs.container.clientWidth,
@@ -173,6 +167,10 @@ export default {
     },
     startDragging(event) {
       if (event.button !== 0) return;
+
+      if (event.target.className != "icon") {
+        this.modal = false;
+      }
 
       /*       this.mapSize = this.countMapSizes();
       this.containerSize = this.countContainerSizes(); */
