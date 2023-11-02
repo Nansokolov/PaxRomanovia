@@ -36,8 +36,10 @@
           v-for="(marker, index) in currentMarkers"
           :key="index"
           :style="{
-            left: marker.place[0] * zoom - 20 + 'px',
-            top: marker.place[1] * zoom - 20 + 'px',
+            left:
+              marker.place[0] * (startMapSize.width / 1360) * zoom - 20 + 'px',
+            top:
+              marker.place[1] * (startMapSize.height / 1360) * zoom - 20 + 'px',
           }"
           :data="marker"
           @click="handleCardDisplay(modal, marker)"
@@ -63,10 +65,7 @@ export default {
       isDragging: false,
       containerSize: {},
       mapSize: {},
-      startMapSize: {
-        width: 800,
-        height: 500,
-      },
+      startMapSize: {},
       deltaZoom: 0.2,
       offsetX: -1,
       offsetY: -1,
@@ -91,6 +90,8 @@ export default {
         }
 
     Take such item from storage
+
+    Real position of marker must be specified relative to the map.size = 1360px x 850px
        */
       currentMarkers: [
         {
@@ -130,6 +131,8 @@ export default {
 
   mounted() {
     this.containerSize = this.countContainerSizes();
+    this.startMapSize.width = this.containerSize.width;
+    this.startMapSize.height = Math.round((this.containerSize.width / 8) * 5);
     Object.assign(this.mapSize, this.startMapSize);
   },
 

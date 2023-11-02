@@ -29,6 +29,7 @@ export default {
   justify-content: center;
   align-items: center;
   .content {
+    // только фиксированные величины!!!!!
     width: 1360px;
   }
 }
