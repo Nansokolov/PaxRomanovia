@@ -43,7 +43,6 @@
           @click="handleCardDisplay(modal, marker)"
         >
         </MarkerComp>
-        
       </div>
     </div>
   </div>
@@ -55,7 +54,7 @@ import CardComp from "./CardComp.vue";
 export default {
   components: {
     MarkerComp,
-    CardComp
+    CardComp,
   },
   data() {
     return {
@@ -102,7 +101,8 @@ export default {
           name: "первое восстание",
           period: "1600-1700г.",
           pic: "@/assets/castle.svg",
-          description: "text text text .... blablabla 1",
+          description:
+            "text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1",
         },
         {
           place: [200, 200],
@@ -146,12 +146,12 @@ export default {
   updated() {},
 
   methods: {
-    handleCardDisplay(modal, elem){
-      if(this.selectedElement == elem){
-        this.modal = !modal
-      }else{
-        this.modal=true
-        this.selectedElement = elem
+    handleCardDisplay(modal, elem) {
+      if (this.selectedElement == elem) {
+        this.modal = !modal;
+      } else {
+        this.modal = true;
+        this.selectedElement = elem;
       }
       // return modal
     },
@@ -256,19 +256,12 @@ export default {
   }
   .card {
     position: absolute;
-    height: 420px;
-    width: 280px;
-    border: 2px solid #bd9956;
-    border-radius: 20px;
-    background-color: #717171;
-    color: white;
-    padding: 30px;
+
     z-index: 100;
     right: 40px;
     top: 40px;
     pointer-events: none;
     text-align: left;
   }
-
 }
 </style>
