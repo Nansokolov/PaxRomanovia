@@ -9,6 +9,7 @@
       @mousemove="drag"
       @mouseleave="stopDragging"
       @wheel="handleWheelEvent"
+      @click="hideCard"
       ref="mapLayer"
       :style="{
         transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
@@ -157,6 +158,17 @@ export default {
       } else {
         this.modal = true;
         this.selectedElement = elem;
+    hideCard(){
+      if(event.target.className != "icon"){
+        this.modal = false
+      }
+    },
+    handleCardDisplay(modal, elem){
+      if(this.selectedElement == elem){
+        this.modal = !modal
+      }else{
+        this.modal=true
+        this.selectedElement = elem
       }
       // return modal
     },
