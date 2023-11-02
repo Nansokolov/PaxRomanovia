@@ -158,19 +158,12 @@ export default {
       } else {
         this.modal = true;
         this.selectedElement = elem;
-    hideCard(){
-      if(event.target.className != "icon"){
-        this.modal = false
       }
     },
-    handleCardDisplay(modal, elem){
-      if(this.selectedElement == elem){
-        this.modal = !modal
-      }else{
-        this.modal=true
-        this.selectedElement = elem
+    hideCard(event) {
+      if (event.target.className != "icon") {
+        this.modal = false;
       }
-      // return modal
     },
     countContainerSizes() {
       return {
