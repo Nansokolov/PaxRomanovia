@@ -2,7 +2,7 @@
   <div class="cardContainer">
     <div class="cardHead" id="event-name">{{ data.name }}</div>
     <div class="cardDate" id="event-date">{{ data.period }}</div>
-    <img class="picPreview" src="{{data.pic}}" alt="" draggable="false" />
+    <img class="picPreview" :src="icons.conflict" alt="" draggable="false" />
     <div class="cardBody" id="event-desc">{{ data.description }}</div>
   </div>
 </template>
@@ -41,6 +41,10 @@ export default {
   background-color: #717171;
   color: white;
   padding: 30px;
+
+  -webkit-box-shadow: 12px 12px 8px 0px rgba(34, 60, 80, 0.43);
+  -moz-box-shadow: 12px 12px 8px 0px rgba(34, 60, 80, 0.43);
+  box-shadow: 12px 12px 8px 0px rgba(34, 60, 80, 0.43);
 }
 .picPreview {
   width: 100%;
@@ -64,20 +68,17 @@ export default {
   overflow-y: scroll;
   pointer-events: auto;
 
-  scrollbar-width: thin;
-
   &::-webkit-scrollbar {
-    width: auto;
+    width: 5px;
   }
 
   &::-webkit-scrollbar-track {
-    background-color: darkgrey;
+    background-color: #717171;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: blue; /* цвет бегунка */
-    border-radius: 20px; /* округлось бегунка */
-    border: 3px solid orange; /* отступ вокруг бегунка */
+    background-color: #bd9956; /* цвет бегунка */
+    border-radius: 10px;
   }
 }
 </style>
