@@ -242,8 +242,6 @@ export default {
   height: 500px;
   overflow: hidden;
 
-  margin-top: 100px;
-
   .map-layers {
     position: absolute;
 

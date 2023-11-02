@@ -62,7 +62,6 @@ export default {
 .cardBody {
   margin-top: 20px;
   height: 170px;
-  color: black;
   font-size: 14px;
 
   overflow-y: scroll;
