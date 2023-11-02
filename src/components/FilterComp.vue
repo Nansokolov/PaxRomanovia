@@ -45,7 +45,7 @@ export default {
 .filter {
   width: 350px;
   position: relative;
-  color: white;
+  color: antiquewhite;
   &-container {
     height: 100%;
     border-bottom: 4px solid #bd9447b6;
