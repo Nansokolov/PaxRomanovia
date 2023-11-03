@@ -8,7 +8,7 @@
       @mouseup="stopDragging"
       @mousemove="drag"
       @mouseleave="stopDragging"
-      @wheel="handleWheelEvent"
+      @wheel.passive="handleWheelEvent"
       ref="mapLayer"
       :style="{
         transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
@@ -55,6 +55,8 @@
 import MarkerComp from "./MarkerComp.vue";
 import CardComp from "./CardComp.vue";
 
+import { mapGetters } from "vuex";
+
 export default {
   components: {
     MarkerComp,
@@ -76,58 +78,10 @@ export default {
       mousePositionY: 0,
 
       zoom: 1,
-      val: "heh",
-      currentYear: 1900,
 
       selectedElement: {},
 
-      // for markers example to take from storage
-      /* Example of marker item:
-        {
-          place: [100, 100],
-          id: 1,
-          type: "conflict", (only 4 types: conflict, strengthen, experiments, subjects)
-          region: "moscow",
-          name: "первое восстание",
-        }
-
-    Take such item from storage
-
-    Real position of marker must be specified relative to the map.size = 1360px x 850px
-       */
-      currentMarkers: [
-        {
-          place: [100, 100],
-          id: 1,
-          type: "conflict",
-          region: "moscow",
-          name: "первое восстание",
-          period: "1600-1700г.",
-          pic: "@/assets/castle.svg",
-          description:
-            "text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1",
-        },
-        {
-          place: [200, 200],
-          id: 2,
-          type: "strengthen",
-          region: "moscow",
-          name: "New reveal",
-          period: "1700-1800г.",
-          pic: "@/assets/castle.svg",
-          description: "text text text .... blablabla 2",
-        },
-        {
-          place: [300, 300],
-          id: 3,
-          type: "experiments",
-          region: "moscow",
-          name: "try to destroy your ass",
-          period: "1800-1900г.",
-          pic: "@/assets/castle.svg",
-          description: "text text text .... blablabla 3",
-        },
-      ],
+      filters: {},
     };
   },
 
@@ -136,6 +90,9 @@ export default {
     this.startMapSize.width = this.containerSize.width;
     this.startMapSize.height = Math.round((this.containerSize.width / 8) * 5);
     Object.assign(this.mapSize, this.startMapSize);
+
+    console.log(this.currentMarkers);
+    this.$store.commit("createfilters");
   },
 
   watch: {
@@ -146,6 +103,10 @@ export default {
       });
       this.checkOffset();
     },
+  },
+
+  computed: {
+    ...mapGetters(["currentMarkers", "selectedFilters"]),
   },
 
   updated() {},

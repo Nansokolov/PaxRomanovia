@@ -17,8 +17,6 @@ export default {
 
   data() {
     return {
-      showHint: false,
-
       icons: {
         conflict: require("@/assets/icons/conflict.svg"),
         strengthen: require("@/assets/icons/castle.svg"),
@@ -27,9 +25,6 @@ export default {
       },
     };
   },
-  computed: {},
-  mounted() {},
-  methods: {},
 };
 </script>
 <style lang="scss" scoped>

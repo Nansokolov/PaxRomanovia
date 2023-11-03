@@ -6,8 +6,11 @@
           <div class="logo">PAX ROMANOVIA</div>
         </router-link>
         <div class="content-filters">
-          <FilterComp :moduleName="filterTypes[0]"></FilterComp>
-          <FilterComp :moduleName="filterTypes[1]"></FilterComp>
+          <FilterComp
+            v-for="filterName in filterNames"
+            :key="filterName"
+            :filterName="filterName"
+          ></FilterComp>
         </div>
       </header>
 
@@ -26,10 +29,10 @@ export default {
     MapComp,
     FilterComp,
   },
-  data() {
-    return {
-      filterTypes: ["typeFilter", "regionFilter"],
-    };
+  computed: {
+    filterNames() {
+      return this.$store.getters.filterNames;
+    },
   },
 };
 </script>
@@ -57,7 +60,7 @@ export default {
 
     &-filters {
       display: flex;
-      gap: 25px;
+      gap: 75px;
     }
   }
 

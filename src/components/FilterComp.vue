@@ -8,13 +8,13 @@
           :class="{ 'rotate-img': hovered }"
         />
       </div>
-      <div class="filter-selected">{{ selected }}</div>
+      <div class="filter-selected">{{ selectedOption }}</div>
       <div class="filter-options" v-if="hovered">
         <div
           class="filter-option"
           v-for="(option, index) in options"
           :key="index"
-          @click="selectOption(option)"
+          @click="updateSelected(option)"
         >
           <span>&bull;</span> {{ option }}
         </div>
@@ -23,11 +23,9 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-
 export default {
   props: {
-    moduleName: {
+    filterName: {
       type: String,
       required: true,
     },
@@ -35,31 +33,38 @@ export default {
   data() {
     return {
       hovered: false,
+      vuexModuleUsing: "filters",
     };
   },
   computed: {
-    ...mapState({
-      options: function (state) {
-        return state[this.moduleName].options;
-      },
-      selected: function (state) {
-        return state[this.moduleName].selected;
-      },
-    }),
+    selectedOption() {
+      return this.$store.getters[`${this.vuexModuleUsing}/getSelectedOption`](
+        this.filterName
+      );
+    },
+    options() {
+      return this.$store.getters[`${this.vuexModuleUsing}/getOptions`](
+        this.filterName
+      );
+    },
   },
   methods: {
     openOptionsList() {
       this.hovered = !this.hovered;
     },
-    selectOption(option) {
-      this.$store.commit(`${this.moduleName}/updateSelected`, option);
+    updateSelected(option) {
+      const payload = { filter: this.filterName, option };
+      console.log(payload);
+      this.$store.commit(`${this.vuexModuleUsing}/setSelected`, payload);
+      this.$store.commit(`${this.vuexModuleUsing}/setKeyOfSelected`, payload);
+      this.$store.commit("setSelectedFilters");
     },
   },
 };
 </script>
 <style lang="scss">
 .filter {
-  width: 350px;
+  width: 300px;
   position: relative;
   color: antiquewhite;
   &-container {
