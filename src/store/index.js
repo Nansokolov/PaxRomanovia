@@ -21,7 +21,7 @@ export default createStore({
         place: [200, 200],
         id: 2,
         type: "strengthen",
-        region: "steppeFrontiers",
+        region: "north",
         name: "New reveal",
         period: "1700-1800г.",
         pic: "@/assets/castle.svg",

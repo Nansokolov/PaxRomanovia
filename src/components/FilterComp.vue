@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      hovered: true,
+      hovered: false,
       vuexModuleUsing: "filters",
     };
   },
