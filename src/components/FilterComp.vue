@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      hovered: false,
+      hovered: true,
       vuexModuleUsing: "filters",
     };
   },
@@ -103,14 +103,19 @@ export default {
     line-height: 19px;
   }
   &-options {
-    background-color: red;
     position: absolute;
     width: inherit;
     top: 40px;
     left: 0;
     z-index: 1000;
+    background-color: #212121a1;
+    padding-inline: 5px;
+
+    border-radius: 10px;
   }
   &-option {
+    line-height: 35px;
+    width: 250px;
     span {
     }
   }

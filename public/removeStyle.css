@@ -25,7 +25,8 @@ figure,
 figcaption,
 blockquote,
 dl,
-dd {
+dd,
+hr {
   margin: 0;
 }
 

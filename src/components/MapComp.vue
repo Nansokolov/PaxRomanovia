@@ -9,6 +9,7 @@
       @mousemove="drag"
       @mouseleave="stopDragging"
       @wheel.passive="handleWheelEvent"
+      @click="checkCenterOfMarker"
       ref="mapLayer"
       :style="{
         transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
@@ -40,7 +41,7 @@
             left:
               marker.place[0] * (startMapSize.width / 1360) * zoom - 20 + 'px',
             top:
-              marker.place[1] * (startMapSize.height / 1360) * zoom - 20 + 'px',
+              marker.place[1] * (startMapSize.height / 850) * zoom - 20 + 'px',
           }"
           current="index"
           :data="marker"
@@ -88,7 +89,6 @@ export default {
     this.startMapSize.width = this.containerSize.width;
     this.startMapSize.height = Math.round((this.containerSize.width / 8) * 5);
     Object.assign(this.mapSize, this.startMapSize);
-    console.log(this.selectedFilters);
   },
 
   watch: {
@@ -98,14 +98,12 @@ export default {
         height: Math.round((this.mapSize.height / oldVal) * newVal),
       });
       this.checkOffset();
-      console.log(this.selectedFilters);
     },
   },
 
   computed: {
     ...mapGetters({
       currentMarkers: "currentMarkers",
-      selectedFilters: "filters/getSelectedFilters",
     }),
   },
 
@@ -195,6 +193,10 @@ export default {
         }
       }
     },
+
+    checkCenterOfMarker(event) {
+      console.log([event.offsetX, event.offsetY]);
+    },
   },
 };
 </script>
@@ -202,7 +204,7 @@ export default {
 .map-container {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 70vh;
   overflow: hidden;
 
   .map-layers {

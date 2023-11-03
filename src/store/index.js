@@ -7,7 +7,7 @@ export default createStore({
 
     allCards: [
       {
-        place: [100, 100],
+        place: [500, 100],
         id: 1,
         type: "conflict",
         region: "uralSiberia",
@@ -28,10 +28,30 @@ export default createStore({
         description: "text text text .... blablabla 2",
       },
       {
+        place: [277, 519],
+        id: 5,
+        type: "strengthen",
+        region: "steppeFrontiers",
+        name: "New reveal",
+        period: "1700-1800г.",
+        pic: "@/assets/castle.svg",
+        description: "text text text .... blablabla 2",
+      },
+      {
         place: [300, 300],
         id: 3,
         type: "experiments",
         region: "northernBlackSea",
+        name: "try to destroy your ass",
+        period: "1800-1900г.",
+        pic: "@/assets/castle.svg",
+        description: "text text text .... blablabla 3",
+      },
+      {
+        place: [793, 342],
+        id: 4,
+        type: "subjects",
+        region: "farEast",
         name: "try to destroy your ass",
         period: "1800-1900г.",
         pic: "@/assets/castle.svg",
