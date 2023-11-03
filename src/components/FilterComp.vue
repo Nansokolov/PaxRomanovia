@@ -19,6 +19,9 @@
           <span>&bull;</span> {{ option }}
         </div>
       </div>
+      <div class="filter-remove" @click="clearSelected">
+        <img src="@/assets/cross.svg" alt="" />
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +50,9 @@ export default {
         this.filterName
       );
     },
+    selectedaaa() {
+      return this.$store.getters[`${this.vuexModuleUsing}/getSelectedFilters`];
+    },
   },
   methods: {
     openOptionsList() {
@@ -54,10 +60,19 @@ export default {
     },
     updateSelected(option) {
       const payload = { filter: this.filterName, option };
-      console.log(payload);
+
       this.$store.commit(`${this.vuexModuleUsing}/setSelected`, payload);
       this.$store.commit(`${this.vuexModuleUsing}/setKeyOfSelected`, payload);
-      this.$store.commit("setSelectedFilters");
+
+      this.$emit("updateMarkers");
+    },
+    clearSelected(event) {
+      event.stopPropagation();
+      console.log("ужадено");
+      this.$store.commit(
+        `${this.vuexModuleUsing}/clearFilter`,
+        this.filterName
+      );
     },
   },
 };
@@ -93,10 +108,18 @@ export default {
     width: inherit;
     top: 40px;
     left: 0;
-    z-index: 100;
+    z-index: 1000;
   }
   &-option {
     span {
+    }
+  }
+  &-remove {
+    position: absolute;
+    align-self: center;
+    right: 0;
+    img {
+      height: 15px;
     }
   }
 }

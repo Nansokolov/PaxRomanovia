@@ -9,7 +9,6 @@ export default {
         conflict: "Конфликт",
       },
       selected: "Тип события",
-      keyOfSelectedOption: "",
     },
     regionFilter: {
       options: {
@@ -22,7 +21,11 @@ export default {
         north: "Север",
       },
       selected: "Регион",
-      keyOfSelectedOption: "",
+    },
+
+    selectedFilters: {
+      typeFilter: "",
+      regionFilter: "",
     },
   },
 
@@ -33,8 +36,8 @@ export default {
     getOptions: (state) => (filterType) => {
       return state[filterType].options;
     },
-    getKeyOfSelectedOption: (state) => (filterType) => {
-      return state[filterType].keyOfSelectedOption;
+    getSelectedFilters(state) {
+      return state.selectedFilters;
     },
   },
 
@@ -47,7 +50,12 @@ export default {
         return Object.keys(obj).find((key) => obj[key] === value);
       }
       const key = findKey(state[payload.filter].options, payload.option);
-      state[payload.filter].keyOfSelectedOption = key;
+      state.selectedFilters[payload.filter] = key;
+    },
+    clearFilter(state, payload) {
+      state.selectedFilters[payload] = "";
+      if (payload === "typeFilter") state[payload].selected = "Тип события";
+      if (payload === "regionFilter") state[payload].selected = "Регион";
     },
   },
 

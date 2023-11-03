@@ -80,8 +80,6 @@ export default {
       zoom: 1,
 
       selectedElement: {},
-
-      filters: {},
     };
   },
 
@@ -90,9 +88,7 @@ export default {
     this.startMapSize.width = this.containerSize.width;
     this.startMapSize.height = Math.round((this.containerSize.width / 8) * 5);
     Object.assign(this.mapSize, this.startMapSize);
-
-    console.log(this.currentMarkers);
-    this.$store.commit("createfilters");
+    console.log(this.selectedFilters);
   },
 
   watch: {
@@ -102,11 +98,15 @@ export default {
         height: Math.round((this.mapSize.height / oldVal) * newVal),
       });
       this.checkOffset();
+      console.log(this.selectedFilters);
     },
   },
 
   computed: {
-    ...mapGetters(["currentMarkers", "selectedFilters"]),
+    ...mapGetters({
+      currentMarkers: "currentMarkers",
+      selectedFilters: "filters/getSelectedFilters",
+    }),
   },
 
   updated() {},

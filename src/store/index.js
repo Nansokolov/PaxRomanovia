@@ -5,14 +5,12 @@ export default createStore({
   state: {
     filterNames: ["typeFilter", "regionFilter"],
 
-    selectedFilters: {},
-
     allCards: [
       {
         place: [100, 100],
         id: 1,
         type: "conflict",
-        region: "moscow",
+        region: "uralSiberia",
         name: "первое восстание",
         period: "1600-1700г.",
         pic: "@/assets/castle.svg",
@@ -23,7 +21,7 @@ export default createStore({
         place: [200, 200],
         id: 2,
         type: "strengthen",
-        region: "moscow",
+        region: "steppeFrontiers",
         name: "New reveal",
         period: "1700-1800г.",
         pic: "@/assets/castle.svg",
@@ -33,7 +31,7 @@ export default createStore({
         place: [300, 300],
         id: 3,
         type: "experiments",
-        region: "moscow",
+        region: "northernBlackSea",
         name: "try to destroy your ass",
         period: "1800-1900г.",
         pic: "@/assets/castle.svg",
@@ -45,27 +43,18 @@ export default createStore({
     filterNames(state) {
       return state.filterNames;
     },
-    currentMarkers(state) {
-      return state.allCards;
-    },
-    selectedFilters(state) {
-      return state.selectedFilters;
-    },
-  },
-  mutations: {
-    createfilters(state) {
-      state.filterNames.forEach((elem) => {
-        state.selectedFilters[elem] = "";
+    currentMarkers(state, getters, rootState) {
+      const filters = rootState.filters.selectedFilters;
+      return state.allCards.filter((elem) => {
+        const typeMatches =
+          filters.typeFilter === "" || elem.type === filters.typeFilter;
+        const regionMatches =
+          filters.regionFilter === "" || elem.region === filters.regionFilter;
+        return typeMatches && regionMatches;
       });
     },
-    setSelectedFilters(state) {
-      for (let elem in state.selectedFilters) {
-        if (state.selectedFilters[elem] == "") {
-          state.selectedFilters[elem] = "123";
-        }
-      }
-    },
   },
+  mutations: {},
   actions: {},
   modules: {
     filters,
