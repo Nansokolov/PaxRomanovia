@@ -15,6 +15,7 @@
       </header>
 
       <MapComp></MapComp>
+      <RangeComp></RangeComp>
     </div>
   </div>
 </template>
@@ -22,12 +23,14 @@
 <script>
 import MapComp from "@/components/MapComp.vue";
 import FilterComp from "@/components/FilterComp.vue";
+import RangeComp from "@/components/RangeComp.vue";
 
 export default {
   name: "HomeView",
   components: {
     MapComp,
     FilterComp,
+    RangeComp,
   },
   computed: {
     filterNames() {
