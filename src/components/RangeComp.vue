@@ -4,14 +4,15 @@
             type="range" 
             class="slider" 
             id="myRange"
-            min="1000" 
-            max="2000" 
+            min="1600" 
+            max="1920" 
             step="1" 
             value="0.00" 
-            oninput="" 
+            @input="setValue"
             draggable="false"/>
           </div>
           <span class="minValInput">1600</span>
+          <span class="minValInput" id="currentValue" style="position: absolute; background: rgb(33 33 33);"></span>
           <span class="maxValInput">1920</span>
   </template>
   
@@ -30,17 +31,35 @@
         },
       };
     },
+    methods: {
+      setValue(){
+        const margin = 25; //Value of margin of the "min" span from left corner
+        const myRange = document.querySelector('#myRange'); 
+        const myValue = document.querySelector('#currentValue');
+        myValue.style.display = "";
+        //Calculating the percentage of the value in between min and max values
+        const valueAsPercent = (myRange.valueAsNumber - parseInt(myRange.min))/(parseInt(myRange.max) - parseInt(myRange.min));
+        // Setting the proper "left" attribute for "Value span" of the range
+        myValue.style.left = valueAsPercent*myRange.offsetWidth +(1-margin*valueAsPercent)  + 'px';
+        // Setting the value of "Value span" of the range
+        myValue.innerHTML = myRange.value;
+
+        setTimeout(function() {
+          myValue.style.display = "none";
+        }, 1000);
+      }
+    }
   };
   </script>
   <style lang="scss" scoped>
 
   input{
     -moz-appearance :none;
-  appearance :none;
-  background: none;
-  cursor: pointer;
-  overflow: hidden;
-  transition: .3s;
+    appearance :none;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: .3s;
   }
 
   input[type="range"] {
