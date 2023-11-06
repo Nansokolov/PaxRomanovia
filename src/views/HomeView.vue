@@ -15,7 +15,9 @@
       </header>
 
       <MapComp></MapComp>
-      <RangeComp></RangeComp>
+      <div class="last">
+        <RangeComp></RangeComp>
+      </div>
     </div>
   </div>
 </template>
@@ -50,6 +52,8 @@ export default {
   .content {
     // только фиксированные величины!!!!!
     width: 1360px;
+    display: flex;
+    flex-direction: column;
 
     header {
       display: flex;
@@ -81,5 +85,11 @@ export default {
     font-size: 49px;
     align-self: flex-start;
   }
+}
+
+.last {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
 }
 </style>

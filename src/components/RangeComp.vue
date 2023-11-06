@@ -12,14 +12,15 @@
       draggable="false"
       ref="range"
     />
+
+    <span class="minValInput">1600</span>
+    <span
+      class="minValInput"
+      id="currentValue"
+      style="position: absolute; background: rgb(33 33 33)"
+    ></span>
+    <span class="maxValInput">1920</span>
   </div>
-  <span class="minValInput">1600</span>
-  <span
-    class="minValInput"
-    id="currentValue"
-    style="position: absolute; background: rgb(33 33 33)"
-  ></span>
-  <span class="maxValInput">1920</span>
 </template>
 
 <script>
@@ -166,5 +167,9 @@ input[type="range"]::-moz-range-track {
 }
 .maxValInput {
   float: right;
+}
+
+.inputContainer {
+  width: 100%;
 }
 </style>

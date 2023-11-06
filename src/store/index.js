@@ -7,7 +7,7 @@ export default createStore({
 
     allCards: [
       {
-        place: [500, 100],
+        place: [323, 338],
         id: 1,
         //filters:
         type: "conflict",
