@@ -6,10 +6,11 @@
       id="myRange"
       min="1600"
       max="1920"
-      step="1"
+      step="20"
       value="0.00"
       @input="setValue"
       draggable="false"
+      ref="range"
     />
   </div>
   <span class="minValInput">1600</span>
@@ -53,6 +54,11 @@ export default {
         "px"; // шдесь тоже если опрокидываем с помощью дерективы, то просто в data вноси значения и меняй
       // Setting the value of "Value span" of the range
       myValue.innerHTML = myRange.value; // щдесь через дерективу v-html
+
+      // change state vueX, dont touch it))))
+      console.log(this.$refs.range.value);
+      this.$store.commit("filters/setYear", this.$refs.range.value);
+      // -------------
 
       setTimeout(function () {
         myValue.style.display = "none";

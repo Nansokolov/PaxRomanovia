@@ -2,7 +2,7 @@
   <div class="cardContainer">
     <div class="cardHead" id="event-name">{{ data.name }}</div>
     <div class="cardDate" id="event-date">{{ data.period }}</div>
-    <img class="picPreview" :src="icons.conflict" alt="" draggable="false" />
+    <img class="picPreview" :src="returnImg()" alt="" draggable="false" />
     <div class="cardBody" id="event-desc">{{ data.description }}</div>
   </div>
 </template>
@@ -15,22 +15,17 @@ export default {
     },
   },
 
-  data() {
-    return {
-      icons: {
-        conflict: require("@/assets/icons/conflict.svg"),
-        strengthen: require("@/assets/icons/castle.svg"),
-        experiments: require("@/assets/icons/experiment.svg"),
-        subjects: require("@/assets/icons/people.svg"),
-      },
-    };
+  methods: {
+    returnImg() {
+      return require(`@/assets/${this.data.img}.jpg`);
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 .cardContainer {
   height: 420px;
-  width: 280px;
+  width: 380px;
   border: 2px solid #bd9956;
   border-radius: 20px;
   background-color: #717171;

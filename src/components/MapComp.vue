@@ -1,6 +1,6 @@
 <template lang="">
   <div class="map-container" ref="container">
-    <CardComp :data="selectedElement" class="card" v-show="modal"></CardComp>
+    <CardComp :data="selectedElement" class="card" v-if="modal"></CardComp>
 
     <div
       class="map-layers"
@@ -127,9 +127,9 @@ export default {
     startDragging(event) {
       if (event.button !== 0) return;
 
-      if (event.target.className != "icon") {
+      /* if (event.target.className != "icon") {
         this.modal = false;
-      }
+      } */
 
       /*       this.mapSize = this.countMapSizes();
       this.containerSize = this.countContainerSizes(); */

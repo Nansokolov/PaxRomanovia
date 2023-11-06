@@ -26,6 +26,7 @@ export default {
     selectedFilters: {
       typeFilter: "",
       regionFilter: "",
+      year: "1600",
     },
   },
 
@@ -56,6 +57,9 @@ export default {
       state.selectedFilters[payload] = "";
       if (payload === "typeFilter") state[payload].selected = "Тип события";
       if (payload === "regionFilter") state[payload].selected = "Регион";
+    },
+    setYear(state, payload) {
+      state.selectedFilters.year = payload;
     },
   },
 

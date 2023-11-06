@@ -68,7 +68,6 @@ export default {
     },
     clearSelected(event) {
       event.stopPropagation();
-      console.log("ужадено");
       this.$store.commit(
         `${this.vuexModuleUsing}/clearFilter`,
         this.filterName

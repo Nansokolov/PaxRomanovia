@@ -9,11 +9,14 @@ export default createStore({
       {
         place: [500, 100],
         id: 1,
+        //filters:
         type: "conflict",
         region: "uralSiberia",
+        year: "1600",
+        //data:
         name: "первое восстание",
         period: "1600-1700г.",
-        pic: "@/assets/castle.svg",
+        img: "ekb",
         description:
           "text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1",
       },
@@ -22,9 +25,10 @@ export default createStore({
         id: 2,
         type: "strengthen",
         region: "north",
+        year: "1620",
         name: "New reveal",
         period: "1700-1800г.",
-        pic: "@/assets/castle.svg",
+        img: "pospolit",
         description: "text text text .... blablabla 2",
       },
       {
@@ -32,9 +36,10 @@ export default createStore({
         id: 5,
         type: "strengthen",
         region: "steppeFrontiers",
+        year: "1640",
         name: "New reveal",
         period: "1700-1800г.",
-        pic: "@/assets/castle.svg",
+        img: "kazakrelocation",
         description: "text text text .... blablabla 2",
       },
       {
@@ -42,9 +47,10 @@ export default createStore({
         id: 3,
         type: "experiments",
         region: "northernBlackSea",
+        year: "1620",
         name: "try to destroy your ass",
         period: "1800-1900г.",
-        pic: "@/assets/castle.svg",
+        img: "persidskiy",
         description: "text text text .... blablabla 3",
       },
       {
@@ -52,9 +58,10 @@ export default createStore({
         id: 4,
         type: "subjects",
         region: "farEast",
+        year: "1600",
         name: "try to destroy your ass",
         period: "1800-1900г.",
-        pic: "@/assets/castle.svg",
+        img: "pospolit",
         description: "text text text .... blablabla 3",
       },
     ],
@@ -70,7 +77,8 @@ export default createStore({
           filters.typeFilter === "" || elem.type === filters.typeFilter;
         const regionMatches =
           filters.regionFilter === "" || elem.region === filters.regionFilter;
-        return typeMatches && regionMatches;
+        const yearMathes = elem.year === filters.year;
+        return typeMatches && regionMatches && yearMathes;
       });
     },
   },
