@@ -17,7 +17,7 @@ export default {
 
   methods: {
     returnImg() {
-      return require(`@/assets/${this.data.img}.jpg`);
+      return require(`@/assets/cards/${this.data.img}.jpg`);
     },
   },
 };
@@ -37,9 +37,7 @@ export default {
   box-shadow: 12px 12px 8px 0px rgba(34, 60, 80, 0.43);
 }
 .picPreview {
-  width: 100%;
   height: 100px;
-  background-color: red;
 }
 .cardHead {
   text-transform: capitalize;

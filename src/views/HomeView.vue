@@ -39,6 +39,9 @@ export default {
       return this.$store.getters.filterNames;
     },
   },
+  mounted() {
+    document.title = "Pax Romanovia";
+  },
 };
 </script>
 

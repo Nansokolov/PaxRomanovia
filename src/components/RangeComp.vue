@@ -57,7 +57,6 @@ export default {
       myValue.innerHTML = myRange.value; // щдесь через дерективу v-html
 
       // change state vueX, dont touch it))))
-      console.log(this.$refs.range.value);
       this.$store.commit("filters/setYear", this.$refs.range.value);
       // -------------
 
