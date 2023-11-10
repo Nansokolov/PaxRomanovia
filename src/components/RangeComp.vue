@@ -118,10 +118,10 @@ input[type="range"]::-moz-range-track {
   // box-shadow: 0 0 0 var(--l) inset var(--c);
   border-image: none;
   border-image: linear-gradient(
-      #0000 calc(50% - 1px),
-      #90733c 0 calc(50% + 1px),
+      #0000 calc(50% - 2px), 
+      #90733c 0 calc(50% + 2px),
       #0000 0
-    )
+    ) // setting the line width
     1/0 100vw/0 calc(100vw + 2px);
   -webkit-appearance: none;
   appearance: none;
@@ -130,17 +130,10 @@ input[type="range"]::-moz-range-track {
   box-shadow: 0 0 0 var(--l) inset var(--c);
 
   margin-top: -14px;
-  // -webkit-appearance: none;
-  // appearance: none;
-  // width: 30px;
-  // height: 30px;
-  // border: 0;
-  // border-radius: 50%;
   background-image: url("@/assets/rangeIcon.png");
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  // cursor: pointer;
 }
 
 .slider::-moz-range-thumb {

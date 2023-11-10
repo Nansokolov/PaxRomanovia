@@ -29,7 +29,7 @@ export default createStore({
         name: "New reveal",
         period: "1700-1800г.",
         img: "pospolit",
-        description: "text text text .... blablabla 2",
+        description: "text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1text text text .... blablabla 1",
       },
       {
         place: [277, 519],
