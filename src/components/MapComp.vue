@@ -111,19 +111,15 @@ export default {
 
   methods: {
     handleCardDisplay(modal, elem) {
-      // console.log(elem)
-      console.log(1);
       if(elem){
         if (this.selectedElement == elem) {
-        console.log(2);
           this.modal = !modal;
         } else {
-        console.log(3);
           this.modal = true;
           this.selectedElement = elem;
         }
       }else{
-        this.modal = !modal;
+        this.modal = false;
       }
     },
     countContainerSizes() {
