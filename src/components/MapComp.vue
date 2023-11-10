@@ -9,7 +9,7 @@
       @mousemove="drag"
       @mouseleave="stopDragging"
       @wheel.passive="handleWheelEvent"
-      @click="checkCenterOfMarker"
+      @click="checkCenterOfMarker;  handleCardDisplay(modal, false)"
       ref="mapLayer"
       :style="{
         transform: 'translate(' + offsetX + 'px,' + offsetY + 'px)',
@@ -45,7 +45,7 @@
           }"
           current="index"
           :data="marker"
-          @click="handleCardDisplay(modal, marker)"
+          @click.stop="handleCardDisplay(modal, marker)"
         >
         </MarkerComp>
       </div>
@@ -111,11 +111,19 @@ export default {
 
   methods: {
     handleCardDisplay(modal, elem) {
-      if (this.selectedElement == elem) {
+      // console.log(elem)
+      console.log(1);
+      if(elem){
+        if (this.selectedElement == elem) {
+        console.log(2);
+          this.modal = !modal;
+        } else {
+        console.log(3);
+          this.modal = true;
+          this.selectedElement = elem;
+        }
+      }else{
         this.modal = !modal;
-      } else {
-        this.modal = true;
-        this.selectedElement = elem;
       }
     },
     countContainerSizes() {
