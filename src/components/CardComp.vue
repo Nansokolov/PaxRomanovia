@@ -3,7 +3,9 @@
     <div class="cardHead" id="event-name">{{ data.name }}</div>
     <div class="cardDate" id="event-date">{{ data.period }}</div>
     <img class="picPreview" :src="returnImg()" alt="" draggable="false" />
-    <div class="cardBody" id="event-desc"><div>{{ data.description }}</div></div>
+    <div class="cardBody" id="event-desc">
+      <div>{{ data.description }}</div>
+    </div>
   </div>
 </template>
 
@@ -75,11 +77,11 @@ export default {
   }
 }
 
-.cardBody div{
-  background-color: #d9d9d9;
+.cardBody div {
+  color: white;
+  //  background-color: #d9d9d9;
   // height: 100%;
   min-height: 100%;
   padding: 5px 0px 5px 5px;
-
 }
 </style>

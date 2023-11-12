@@ -39,6 +39,10 @@ export default {
       return this.$store.getters.filterNames;
     },
   },
+
+  created() {
+    this.$store.dispatch("getCardsfromJson");
+  },
   mounted() {
     document.title = "Pax Romanovia";
   },
